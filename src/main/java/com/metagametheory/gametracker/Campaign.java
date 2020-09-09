@@ -1,20 +1,22 @@
 package com.metagametheory.gametracker;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.util.Date;
 
+@Entity
 public class Campaign {
 
     private @Id @GeneratedValue  Long id;
-    private String AdventurePath;
-    private Date StartedOn;
+    private String adventurePath;
+    private Date startedOn;
 
     public Campaign() {}
 
     public Campaign(String ap, Date started){
-        this.AdventurePath = ap;
-        this.StartedOn = started;
+        this.adventurePath = ap;
+        this.startedOn = started;
     }
 
     public Long getId() {
@@ -22,11 +24,11 @@ public class Campaign {
     }
 
     public String getAdventurePath() {
-        return AdventurePath;
+        return adventurePath;
     }
 
     public Date getStartedOn() {
-        return StartedOn;
+        return startedOn;
     }
 
     public void setId(Long id) {
@@ -34,10 +36,10 @@ public class Campaign {
     }
 
     public void setAdventurePath(String adventurePath) {
-        AdventurePath = adventurePath;
+        adventurePath = adventurePath;
     }
 
     public void setStartedOn(Date startedOn) {
-        StartedOn = startedOn;
+        this.startedOn = startedOn;
     }
 }
