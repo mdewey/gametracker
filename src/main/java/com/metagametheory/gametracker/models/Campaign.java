@@ -18,6 +18,11 @@ public class Campaign {
         return players;
     }
 
+
+    public void addPlayer(Player player) {
+        this.players.add(player);
+    }
+
     @OneToMany(mappedBy = "campaign")
     private List<Player> players;
 

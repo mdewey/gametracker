@@ -2,9 +2,11 @@ package com.metagametheory.gametracker.controllers;
 
 
 import com.metagametheory.gametracker.models.Campaign;
+import com.metagametheory.gametracker.models.Player;
 import com.metagametheory.gametracker.repositories.CampaignRepository;
 import com.metagametheory.gametracker.assemblers.CampaignModelAssembler;
 import com.metagametheory.gametracker.exceptions.CampaignNotFoundException;
+import com.metagametheory.gametracker.repositories.PlayerRepository;
 import org.springframework.data.domain.Sort;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.*;
@@ -16,10 +18,12 @@ import java.util.stream.Collectors;
 public class CampaignController {
     private final CampaignRepository repository;
     private final CampaignModelAssembler assembler;
+    private final PlayerRepository playerRepository;
 
-    CampaignController(CampaignRepository repository, CampaignModelAssembler assembler){
+    CampaignController(CampaignRepository repository, CampaignModelAssembler assembler, PlayerRepository playerRepository){
         this.repository = repository;
         this.assembler = assembler;
+        this.playerRepository = playerRepository;
     }
 
 
@@ -38,6 +42,17 @@ public class CampaignController {
     @PostMapping("/campaigns")
     EntityModel<Campaign>  create(@RequestBody Campaign campaign){
         return assembler.toModel(repository.save(campaign));
+    }
+
+    @PostMapping("/campaigns/{id}/players")
+    EntityModel<Campaign>  create(@PathVariable Long id, @RequestBody Player player){
+        var campaign = repository
+                    .findById(id)
+                    .orElseThrow(() -> new CampaignNotFoundException(id));
+        player.setCampaign(campaign);
+        this.playerRepository.save(player);
+        campaign.addPlayer(player);
+        return assembler.toModel(campaign);
     }
 
     @PutMapping("/campaigns/{id}")
