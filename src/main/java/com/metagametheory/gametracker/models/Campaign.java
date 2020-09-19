@@ -1,4 +1,4 @@
-package com.metagametheory.gametracker;
+package com.metagametheory.gametracker.models;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -36,7 +36,7 @@ public class Campaign {
     }
 
     public void setAdventurePath(String adventurePath) {
-        adventurePath = adventurePath;
+        this.adventurePath = adventurePath;
     }
 
     public void setStartedOn(Date startedOn) {
